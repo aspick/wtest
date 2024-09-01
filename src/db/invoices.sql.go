@@ -13,7 +13,6 @@ import (
 
 const createInvoice = `-- name: CreateInvoice :one
 INSERT INTO invoices (
-  id,
   company_id,
   customer_id,
   issue_date,
@@ -26,12 +25,11 @@ INSERT INTO invoices (
   status
 )
 VALUES
-  ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+  ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 RETURNING id, company_id, customer_id, issue_date, payment_amount, charge, charge_rate, consumption_tax, billing_amount, payment_due_date, status
 `
 
 type CreateInvoiceParams struct {
-	ID             int32
 	CompanyID      int32
 	CustomerID     int32
 	IssueDate      pgtype.Date
@@ -46,7 +44,6 @@ type CreateInvoiceParams struct {
 
 func (q *Queries) CreateInvoice(ctx context.Context, arg CreateInvoiceParams) (Invoice, error) {
 	row := q.db.QueryRow(ctx, createInvoice,
-		arg.ID,
 		arg.CompanyID,
 		arg.CustomerID,
 		arg.IssueDate,

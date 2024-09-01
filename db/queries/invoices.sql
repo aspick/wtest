@@ -1,6 +1,5 @@
 -- name: CreateInvoice :one
 INSERT INTO invoices (
-  id,
   company_id,
   customer_id,
   issue_date,
@@ -13,5 +12,5 @@ INSERT INTO invoices (
   status
 )
 VALUES
-  ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+  ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
 RETURNING *;
