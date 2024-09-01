@@ -4,7 +4,109 @@
 
 package db
 
+import (
+	"database/sql/driver"
+	"fmt"
+
+	"github.com/jackc/pgx/v5/pgtype"
+)
+
+type InvoiceStatus string
+
+const (
+	InvoiceStatusPending    InvoiceStatus = "pending"
+	InvoiceStatusProcessing InvoiceStatus = "processing"
+	InvoiceStatusCompleted  InvoiceStatus = "completed"
+	InvoiceStatusFailed     InvoiceStatus = "failed"
+)
+
+func (e *InvoiceStatus) Scan(src interface{}) error {
+	switch s := src.(type) {
+	case []byte:
+		*e = InvoiceStatus(s)
+	case string:
+		*e = InvoiceStatus(s)
+	default:
+		return fmt.Errorf("unsupported scan type for InvoiceStatus: %T", src)
+	}
+	return nil
+}
+
+type NullInvoiceStatus struct {
+	InvoiceStatus InvoiceStatus
+	Valid         bool // Valid is true if InvoiceStatus is not NULL
+}
+
+// Scan implements the Scanner interface.
+func (ns *NullInvoiceStatus) Scan(value interface{}) error {
+	if value == nil {
+		ns.InvoiceStatus, ns.Valid = "", false
+		return nil
+	}
+	ns.Valid = true
+	return ns.InvoiceStatus.Scan(value)
+}
+
+// Value implements the driver Valuer interface.
+func (ns NullInvoiceStatus) Value() (driver.Value, error) {
+	if !ns.Valid {
+		return nil, nil
+	}
+	return string(ns.InvoiceStatus), nil
+}
+
+type Company struct {
+	ID                 int32
+	Name               string
+	RepresentativeName string
+	Telephone          string
+	ZipCode            string
+	Address            string
+}
+
+type Customer struct {
+	ID                 int32
+	CompanyID          int32
+	Name               string
+	RepresentativeName string
+	Telephone          string
+	ZipCode            string
+	Address            string
+}
+
+type CustomerBandAccount struct {
+	ID            int32
+	CompanyID     int32
+	CustomerID    int32
+	BankName      string
+	BranchName    string
+	AccountNumber string
+	AccountName   string
+}
+
+type Invoice struct {
+	ID             int32
+	CompanyID      int32
+	CustomerID     int32
+	IssueDate      pgtype.Date
+	PaymentAmount  pgtype.Numeric
+	Charge         pgtype.Numeric
+	ChargeRate     pgtype.Numeric
+	ConsumptionTax pgtype.Numeric
+	BillingAmount  pgtype.Numeric
+	PaymentDueDate pgtype.Date
+	Status         InvoiceStatus
+}
+
 type TestTable struct {
 	ID   int32
 	Name string
+}
+
+type User struct {
+	ID             int32
+	CompanyID      int32
+	Name           string
+	Email          string
+	HashedPassword string
 }
