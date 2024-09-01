@@ -1,6 +1,6 @@
 基盤の整備
 - [x] TODOファイルの作成
-- [ ] README の作成
+- [x] README の作成
 - [ ] go 基盤の作成
   - [ ] /hello endpoint の作成
   - [ ] テストの作成
