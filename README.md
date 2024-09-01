@@ -5,6 +5,7 @@
 - go 1.23
 - docker
 - docker-compose
+- sqlc
 - direnv
 
 ## API schema

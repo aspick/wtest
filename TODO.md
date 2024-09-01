@@ -5,7 +5,7 @@
   - [x] /hello endpoint の作成
   - [x] テストの作成
 - [x] psql docker compose の整備
-- [ ] sqlc の導入
+- [x] sqlc の導入
 
 API の作成
 - [ ] DB schema の作成
