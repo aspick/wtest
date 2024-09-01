@@ -1,9 +1,9 @@
 基盤の整備
 - [x] TODOファイルの作成
 - [x] README の作成
-- [ ] go 基盤の作成
-  - [ ] /hello endpoint の作成
-  - [ ] テストの作成
+- [x] go 基盤の作成
+  - [x] /hello endpoint の作成
+  - [x] テストの作成
 - [ ] psql docker compose の整備
 - [ ] sqlc の導入
 
