@@ -4,7 +4,7 @@
 - [x] go 基盤の作成
   - [x] /hello endpoint の作成
   - [x] テストの作成
-- [ ] psql docker compose の整備
+- [x] psql docker compose の整備
 - [ ] sqlc の導入
 
 API の作成
