@@ -1,17 +1,25 @@
 package handler_test
 
 import (
+	"context"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/aspick/wtest/src/config"
 	"github.com/aspick/wtest/src/handler"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func TestHelloHandler(t *testing.T) {
+	env := config.Env{}
+	pool, err := pgxpool.New(context.Background(), env.GetDBURL())
+	if err != nil {
+		t.Fatal(err)
+	}
 	mux := http.NewServeMux()
-	handler.RegisterHandlers(mux)
+	handler.RegisterHandlers(mux, pool)
 
 	t.Run("GET /hello", func(t *testing.T) {
 		req, err := http.NewRequest("GET", "/hello", nil)
