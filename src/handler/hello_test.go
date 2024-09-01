@@ -13,7 +13,11 @@ import (
 )
 
 func TestHelloHandler(t *testing.T) {
-	env := config.Env{}
+	env, err := config.NewEnv()
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	pool, err := pgxpool.New(context.Background(), env.GetDBURL())
 	if err != nil {
 		t.Fatal(err)

@@ -1,6 +1,10 @@
 package config
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/caarlos0/env/v11"
+)
 
 type Env struct {
 	PostgresUser     string `env:"POSTGRES_USER"`
@@ -18,4 +22,13 @@ func (e *Env) GetDBURL() string {
 		e.PostgresPort,
 		e.PostgresDB,
 	)
+}
+
+func NewEnv() (*Env, error) {
+	var e Env
+	err := env.Parse(&e)
+	if err != nil {
+		return nil, err
+	}
+	return &e, nil
 }
