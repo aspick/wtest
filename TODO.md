@@ -9,6 +9,6 @@
 
 API の作成
 - [x] DB schema の作成
-= [ ] seed の作成
+= [x] seed の作成
 - [ ] create endpoint の作成
 - [ ] read endpoint の作成
